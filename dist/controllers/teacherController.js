@@ -9,56 +9,36 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.registerTeacher = void 0;
+exports.loginTeacher = exports.registerTeacher = void 0;
 const teacherService_1 = require("../services/teacherService");
-// הרשמה למורה חדש
-/**
- * @swagger
- * /api/teachers/register:
- *   post:
- *     summary: רישום מורה חדש
- *     tags: [Teachers]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - username
- *               - email
- *               - password
- *               - classroomName
- *             properties:
- *               username:
- *                 type: string
- *               email:
- *                 type: string
- *               password:
- *                 type: string
- *               classroomName:
- *                 type: string
- *     responses:
- *       201:
- *         description: מורה נרשם בהצלחה
- *       404:
- *         description: כיתה לא נמצאה
- *       500:
- *         description: שגיאה ברישום המורה
- */
+const auth_1 = require("../utils/auth");
 const registerTeacher = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const teacher = yield (0, teacherService_1.registerTeacherService)(req.body);
-        if (!teacher) {
-            return res.status(404).json({ message: "כיתה לא נמצאה" });
-        }
-        return res.status(201).json({ message: "מורה נרשם בהצלחה", teacher }); // החזרת ערך במצב הצלחה
+        const { username, email, password, classroomName } = req.body;
+        const teacher = yield (0, teacherService_1.registerTeacherService)({ username, email, password, classroomName });
+        res.status(201).json({ message: "מורה נרשם בהצלחה" });
     }
     catch (error) {
-        if (error instanceof Error) {
-            return res.status(500).json({ message: "שגיאה ברישום המורה", error: error.message });
-        }
-        return res.status(500).json({ message: "שגיאה ברישום המורה", error: "שגיאה לא ידועה" });
+        console.error("Error during teacher registration:", error);
+        res.status(400).json({ message: error });
     }
 });
 exports.registerTeacher = registerTeacher;
+const loginTeacher = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { email, password } = req.body;
+        const teacher = yield (0, teacherService_1.loginTeacherService)({ email, password });
+        const token = (0, auth_1.generateToken)(teacher._id.toString(), 'teacher');
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: false,
+            maxAge: 3600000
+        });
+        res.status(200).json({ message: "התחברת בהצלחה", token });
+    }
+    catch (error) {
+        console.error("Error during teacher login:", error);
+        res.status(401).json({ message: error });
+    }
+});
+exports.loginTeacher = loginTeacher;

@@ -1,8 +1,8 @@
-import { Router } from "express";
-import { registerTeacher, loginTeacher } from "../controllers/teacherController";
-
-const router = Router();
-
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const teacherController_1 = require("../controllers/teacherController");
+const router = (0, express_1.Router)();
 /**
  * @swagger
  * /api/teachers/register:
@@ -29,8 +29,7 @@ const router = Router();
  *       400:
  *         description: Error registering teacher
  */
-router.post('/register', registerTeacher);
-
+router.post('/register', teacherController_1.registerTeacher);
 /**
  * @swagger
  * /api/teachers/login:
@@ -53,6 +52,5 @@ router.post('/register', registerTeacher);
  *       401:
  *         description: Invalid credentials
  */
-router.post('/login', loginTeacher);
-
-export default router;
+router.post('/login', teacherController_1.loginTeacher);
+exports.default = router;

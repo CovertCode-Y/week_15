@@ -25,21 +25,8 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
 const ClassroomSchema = new mongoose_1.Schema({
-    name: {
-        type: String,
-        required: true,
-        unique: true, // שם הכיתה צריך להיות ייחודי כדי שנוכל לחפש לפי השם
-    },
-    teacher: {
-        type: mongoose_1.Schema.Types.ObjectId,
-        ref: 'Teacher',
-        required: true,
-    },
-    students: [
-        {
-            type: mongoose_1.Schema.Types.ObjectId,
-            ref: 'Student',
-        }
-    ],
+    name: { type: String, required: true, unique: true },
+    teacher: { type: mongoose_1.Schema.Types.ObjectId, ref: 'Teacher', required: true },
+    students: [{ type: mongoose_1.Schema.Types.ObjectId, ref: 'Student' }],
 });
 exports.default = mongoose_1.default.model('Classroom', ClassroomSchema);

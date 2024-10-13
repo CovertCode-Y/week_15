@@ -1,8 +1,8 @@
-import { Router } from "express";
-import { registerStudent, loginStudent, getStudentGrades } from "../controllers/studentController";
-
-const router = Router();
-
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const studentController_1 = require("../controllers/studentController");
+const router = (0, express_1.Router)();
 /**
  * @swagger
  * /api/students/register:
@@ -29,8 +29,7 @@ const router = Router();
  *       400:
  *         description: Error registering student
  */
-router.post('/register', registerStudent);
-
+router.post('/register', studentController_1.registerStudent);
 /**
  * @swagger
  * /api/students/login:
@@ -53,8 +52,7 @@ router.post('/register', registerStudent);
  *       401:
  *         description: Invalid credentials
  */
-router.post('/login', loginStudent);
-
+router.post('/login', studentController_1.loginStudent);
 /**
  * @swagger
  * /api/students/{studentId}/grades:
@@ -73,6 +71,5 @@ router.post('/login', loginStudent);
  *       404:
  *         description: Student not found
  */
-router.get('/:studentId/grades', getStudentGrades);
-
-export default router;
+router.get('/:studentId/grades', studentController_1.getStudentGrades);
+exports.default = router;
