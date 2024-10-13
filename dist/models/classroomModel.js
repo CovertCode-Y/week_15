@@ -24,24 +24,22 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
-const TeacherSchema = new mongoose_1.Schema({
-    username: {
+const ClassroomSchema = new mongoose_1.Schema({
+    name: {
         type: String,
         required: true,
+        unique: true, // שם הכיתה צריך להיות ייחודי כדי שנוכל לחפש לפי השם
     },
-    email: {
-        type: String,
-        required: true,
-        unique: true,
-    },
-    password: {
-        type: String,
-        required: true,
-    },
-    classroom: {
+    teacher: {
         type: mongoose_1.Schema.Types.ObjectId,
-        ref: 'Classroom',
+        ref: 'Teacher',
         required: true,
     },
+    students: [
+        {
+            type: mongoose_1.Schema.Types.ObjectId,
+            ref: 'Student',
+        }
+    ],
 });
-exports.default = mongoose_1.default.model('Teacher', TeacherSchema);
+exports.default = mongoose_1.default.model('Classroom', ClassroomSchema);
