@@ -1,5 +1,9 @@
 import { Router } from "express";
-import { registerStudent, loginStudent, getStudentGrades } from "../controllers/studentController";
+import {
+  registerStudent,
+  loginStudent,
+  getStudentGrades,
+} from "../controllers/studentController";
 
 const router = Router();
 
@@ -29,7 +33,7 @@ const router = Router();
  *       400:
  *         description: Error registering student
  */
-router.post('/register', registerStudent);
+router.post("/register", registerStudent);
 
 /**
  * @swagger
@@ -53,7 +57,7 @@ router.post('/register', registerStudent);
  *       401:
  *         description: Invalid credentials
  */
-router.post('/login', loginStudent);
+router.post("/login", loginStudent);
 
 /**
  * @swagger
@@ -73,6 +77,6 @@ router.post('/login', loginStudent);
  *       404:
  *         description: Student not found
  */
-router.get('/:studentId/grades', getStudentGrades);
+router.get("/:studentId/grades", getStudentGrades);
 
 export default router;
